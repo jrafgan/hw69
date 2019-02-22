@@ -1,4 +1,4 @@
-import {ADD_TO_CART, GET_API_LIST, KEEP_NEW_TEXT} from "./actionTypes";
+import {GET_API_LIST, KEEP_NEW_TEXT, PLACE_ORDER} from "./actionTypes";
 import axios from "../../axios_url";
 
 export const keepNewText = (target) => {
@@ -11,9 +11,9 @@ export const setDishesListState = resp => {
     return {type: GET_API_LIST, resp};
 };
 
-// export const addToCart = id => {
-//     return {type: ADD_TO_CART, id};
-// };
+export const placeOrder = item => {
+    return {type: PLACE_ORDER, item};
+};
 
 export const submitNewDish = (e) => {
     e.preventDefault();
@@ -44,6 +44,7 @@ export const addToCart = (id) => {
         state = state.dishListReducer.apiResponse;
         const index = state.findIndex(item=>item.id===id);
         state = state[index];
+        dispatch(placeOrder(state));
         console.log(state.name, state.price);
     }
 };
