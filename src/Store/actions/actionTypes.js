@@ -4,6 +4,7 @@ export const GET_API_LIST = 'GET_API_LIST';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const PLACE_ORDER = 'PLACE_ORDER';
 export const DELETE_ITEM = 'DELETE_ITEM';
-
-
-
+export const SEND_ORDER = 'SEND_ORDER';
+export const FETCH_START = 'FETCH_START';
+export const FETCH_FINALLY = 'FETCH_FINALLY';
+export const CLEAR_ORDER = 'CLEAR_ORDER';

@@ -2,6 +2,7 @@
   text-align: center;
   display: grid;
   grid-template-columns: auto 40%;
+  grid-column-gap: 10px;
 }
 
 .ordered_item {
@@ -14,8 +15,19 @@
   grid-template-columns: auto auto auto;
 }
 
-div {
-  border: 1px solid blue;
+.item_div,
+.delivery_div,
+.total,
+.add_div {
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 2px 2px 3px 0 rgba(50, 50, 50, 0.75);
+}
+
+.list_div {
+  display: grid;
+  grid-row-gap: 10px;
 }
 
 .image {
@@ -54,4 +66,8 @@ div {
 .total {
   display: grid;
   grid-template-columns: auto auto;
+}
+
+.place_order {
+  height: 30px;
 }

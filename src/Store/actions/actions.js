@@ -1,4 +1,13 @@
-import {DELETE_ITEM, GET_API_LIST, KEEP_NEW_TEXT, PLACE_ORDER} from "./actionTypes";
+import {
+    CLEAR_ORDER,
+    DELETE_ITEM,
+    FETCH_FINALLY,
+    FETCH_START,
+    GET_API_LIST,
+    KEEP_NEW_TEXT,
+    PLACE_ORDER,
+    SEND_ORDER
+} from "./actionTypes";
 import axios from "../../axios_url";
 
 export const keepNewText = (target) => {
@@ -16,23 +25,37 @@ export const placeOrder = item => {
 };
 
 export const deleteItem = itemName => {
-  return {type: DELETE_ITEM, itemName}
+    return {type: DELETE_ITEM, itemName}
+};
+
+export const fetchStart = () => {
+    return {type: FETCH_START}
+};
+
+export const fetchFinally = () => {
+    return {type: FETCH_FINALLY}
+};
+
+export const clearOrder = () => {
+    return {type: CLEAR_ORDER}
 };
 
 export const submitNewDish = (e) => {
     e.preventDefault();
     return (dispatch, getState) => {
         const state = getState();
-        console.log(state.addNewDishReducer);
         axios.post('dishes.json', state.addNewDishReducer).then(response => {
-            console.log(response.data);
         })
     }
 };
 
+export const sendOrder = info => {
+    return {type: SEND_ORDER, info}
+};
+
 export const getApiList = () => {
     return (dispatch) => {
-        console.log('axios');
+        dispatch(fetchStart());
         return axios.get('dishes.json').then(response => {
             const apiResp = Object.keys(response.data).map(id => {
                 return {...response.data[id]};
@@ -46,9 +69,19 @@ export const addToCart = (id) => {
     return (dispatch, getState) => {
         let state = getState();
         state = state.dishListReducer.apiResponse;
-        const index = state.findIndex(item=>item.id===id);
+        const index = state.findIndex(item => item.id === id);
         state = state[index];
         dispatch(placeOrder(state));
-        console.log(state.name, state.price);
+    }
+};
+
+export const fetchPost = () => {
+    return (dispatch, getState) => {
+        const state = getState().orderPageReducer;
+        dispatch(fetchStart());
+        return axios.post('dishesOrder.json', state).finally(() => {
+            dispatch(fetchFinally());
+            dispatch(clearOrder());
+        });
     }
 };

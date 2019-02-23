@@ -1,15 +1,14 @@
-import {DELETE_ITEM, PLACE_ORDER} from "../actions/actionTypes";
+import {CLEAR_ORDER, DELETE_ITEM, PLACE_ORDER, SEND_ORDER} from "../actions/actionTypes";
 
 const initialState = {
     stateForChosenItems: [],
+    orderToSend: null,
 };
 
 const orderPageReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case PLACE_ORDER:
-            console.log(state);
-
             const name = action.item.name;
 
             if (state.stateForChosenItems.length === 0) {
@@ -25,7 +24,6 @@ const orderPageReducer = (state = initialState, action) => {
                 if (index !== -1) {
                     let copy = state.stateForChosenItems;
                     copy[index].quantity++;
-                    console.log(copy);
                     return {
                         ...state, stateForChosenItems: copy
                     }
@@ -40,13 +38,11 @@ const orderPageReducer = (state = initialState, action) => {
             }
 
         case DELETE_ITEM:
-            console.log(action.itemName);
             const index = state.stateForChosenItems.findIndex(item => item.name === action.itemName);
             if (index !== -1) {
-                console.log(state.stateForChosenItems, action.itemName);
                 if (state.stateForChosenItems[index].quantity > 1) {
                     let copy = state.stateForChosenItems[index];
-                    copy.quantity --;
+                    copy.quantity--;
                     return {
                         ...state,
                         copy
@@ -56,6 +52,18 @@ const orderPageReducer = (state = initialState, action) => {
                 }
             }
             return state;
+
+        case SEND_ORDER:
+            return {
+                ...state,
+                orderToSend: action.info,
+            };
+
+        case CLEAR_ORDER:
+            return {
+                ...state,
+                stateForChosenItems: []
+            };
 
         default:
             return state;
