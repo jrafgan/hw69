@@ -1,4 +1,4 @@
-import {PLACE_ORDER} from "../actions/actionTypes";
+import {DELETE_ITEM, PLACE_ORDER} from "../actions/actionTypes";
 
 const initialState = {
     stateForChosenItems: [],
@@ -39,6 +39,23 @@ const orderPageReducer = (state = initialState, action) => {
                 }
             }
 
+        case DELETE_ITEM:
+            console.log(action.itemName);
+            const index = state.stateForChosenItems.findIndex(item => item.name === action.itemName);
+            if (index !== -1) {
+                console.log(state.stateForChosenItems, action.itemName);
+                if (state.stateForChosenItems[index].quantity > 1) {
+                    let copy = state.stateForChosenItems[index];
+                    copy.quantity --;
+                    return {
+                        ...state,
+                        copy
+                    }
+                } else {
+                    state.stateForChosenItems.splice(index, 1);
+                }
+            }
+            return state;
 
         default:
             return state;

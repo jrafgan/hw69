@@ -1,4 +1,4 @@
-import {GET_API_LIST, KEEP_NEW_TEXT, PLACE_ORDER} from "./actionTypes";
+import {DELETE_ITEM, GET_API_LIST, KEEP_NEW_TEXT, PLACE_ORDER} from "./actionTypes";
 import axios from "../../axios_url";
 
 export const keepNewText = (target) => {
@@ -13,6 +13,10 @@ export const setDishesListState = resp => {
 
 export const placeOrder = item => {
     return {type: PLACE_ORDER, item};
+};
+
+export const deleteItem = itemName => {
+  return {type: DELETE_ITEM, itemName}
 };
 
 export const submitNewDish = (e) => {
